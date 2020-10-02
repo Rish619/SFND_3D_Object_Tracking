@@ -1,3 +1,0 @@
-/home/rishi/VsCode_Projects/Rishi's_SFND_3D_Object_Track/build/CMakeFiles/rebuild_cache.dir
-/home/rishi/VsCode_Projects/Rishi's_SFND_3D_Object_Track/build/CMakeFiles/3D_object_tracking.dir
-/home/rishi/VsCode_Projects/Rishi's_SFND_3D_Object_Track/build/CMakeFiles/edit_cache.dir

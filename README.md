@@ -33,6 +33,7 @@ In this final project, you will implement the missing parts in the schematic. To
 2. Make a build directory in the top level project directory: `mkdir build && cd build`
 3. Compile: `cmake .. && make`
 4. Run it: `./3D_object_tracking`.
+5. Install Yolo Weights the actual file from https://pjreddie.com/darknet/yolo/
 
 ## Output/Outcome Video(Using entire image sequence 77 frames)
 ### Assumptions
