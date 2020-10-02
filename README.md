@@ -40,7 +40,7 @@ In this final project, you will implement the missing parts in the schematic. To
 * Distance between lidar origin and the front bumper of the ego car while calculating Time to collision using Lidar   points is ignored.
 * Curvature of rear bumper of the preceding vehicle not taken in consideration while calculating Time to collision using Lidar   points
 
-<img src="Result3.gif" width="825" height="414" />   
+<img src="Res.gif" width="825" height="414" />   
 
 At the end of the frame sequence, TTC calculations for both Lidar and Camera are way off due to miss detection and wrong detection of the preceding vehicle as the preceding vehicle is way closer to the ego vehicle, hence some of the features of the car detections are not visible leading to miss detection by the yolo network. Lidar points too are orange coloured(indicating the near vicinity) and some green points covering the side mirrors of the preceding vehicle as the setting for the crop lidar point gets misaligned, interferes with the Lidar based TTC calculation.
 
