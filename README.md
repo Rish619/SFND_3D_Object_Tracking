@@ -115,7 +115,7 @@ At the end of the frame sequence, TTC calculations for both Lidar and Camera are
             matching_time = ((double)cv::getTickCount() - matching_time) / cv::getTickFrequency();
             cout << " match bounding box took " << 1000 * matching_time / 1.0 << " ms.\n";
         }
-    ```
+   ```
 
 ### Compute Lidar-based TTC
 2. Compute time to collision with the preceding vehicle, for the bounding box matches returned by matchBoundingBox function only using projections of the 3D lidarpoints on the Image plane.
@@ -125,36 +125,36 @@ At the end of the frame sequence, TTC calculations for both Lidar and Camera are
 
 [These figures refers to Udacity]
 
-```cpp
-      void computeTTCLidar(std::vector<LidarPoint> &PrevlidarPoints,
-                        std::vector<LidarPoint> &CurrlidarPoints, double frameRate, double &TTC)
-    {
-        double ttc_lidar_calculation_time = (double)cv::getTickCount();
+    ```cpp
+        void computeTTCLidar(std::vector<LidarPoint> &PrevlidarPoints,
+                            std::vector<LidarPoint> &CurrlidarPoints, double frameRate, double &TTC)
+        {
+            double ttc_lidar_calculation_time = (double)cv::getTickCount();
 
-        // For each current and previous frame, taking the median point of the lidar points for the distance estimation  
-        // If the performance is suffering due to the median calculation for the entire lidarpoint dataset, take the median of the subset of the lidarpoints 
-        sort_lidarpoints_inX(PrevlidarPoints);
-        sort_lidarpoints_inX(CurrlidarPoints);
-        
-        double d0 = PrevlidarPoints.size() % 2 == 0 ? (PrevlidarPoints[(PrevlidarPoints.size()/2) - 1].x + PrevlidarPoints[PrevlidarPoints.size()/2].x) / 2.0 : PrevlidarPoints[PrevlidarPoints.size()/2].x; // compute median lidarpoint to remove outlier influence
-        //double d0 = PrevlidarPoints[PrevlidarPoints.size()/2].x;
-        //double d1 = CurrlidarPoints[CurrlidarPoints.size()/2].x;
-        double d1 = CurrlidarPoints.size() % 2 == 0 ? (CurrlidarPoints[(CurrlidarPoints.size()/2) - 1].x + CurrlidarPoints[CurrlidarPoints.size()/2].x) / 2.0 : CurrlidarPoints[CurrlidarPoints.size()/2].x; // compute median lidarpoint to remove outlier influence
+            // For each current and previous frame, taking the median point of the lidar points for the distance estimation  
+            // If the performance is suffering due to the median calculation for the entire lidarpoint dataset, take the median of the subset of the lidarpoints 
+            sort_lidarpoints_inX(PrevlidarPoints);
+            sort_lidarpoints_inX(CurrlidarPoints);
+            
+            double d0 = PrevlidarPoints.size() % 2 == 0 ? (PrevlidarPoints[(PrevlidarPoints.size()/2) - 1].x + PrevlidarPoints[PrevlidarPoints.size()/2].x) / 2.0 : PrevlidarPoints[PrevlidarPoints.size()/2].x; // compute median lidarpoint to remove outlier influence
+            //double d0 = PrevlidarPoints[PrevlidarPoints.size()/2].x;
+            //double d1 = CurrlidarPoints[CurrlidarPoints.size()/2].x;
+            double d1 = CurrlidarPoints.size() % 2 == 0 ? (CurrlidarPoints[(CurrlidarPoints.size()/2) - 1].x + CurrlidarPoints[CurrlidarPoints.size()/2].x) / 2.0 : CurrlidarPoints[CurrlidarPoints.size()/2].x; // compute median lidarpoint to remove outlier influence
 
-        // This calculation is based on the constant velocity model(However, constant acceleration and more complex models are realistic)
-        // TTC = d1 * delta_t / (d0 - d1)
-        // where: d0 is the previous frame's distance from the ego car to the preceding vehicle's rear bumper 
-        //        d1 is the current frame's distance from the ego car to the preceding vehicle's rear bumper 
-        //        delta_t is the time difference between two consecutive frames (1 / frameRate)
-        // Note: this implementation of the time to collision using Lidar points doesn't take the distance between the Lidar origin and the ego vehicles front bumper! in account
-        // It also does not account the hump caused due to the curvature of the rear bump of the preceding vehicle.
-        TTC = d1 * (1.0 / frameRate) / (d0 - d1);
+            // This calculation is based on the constant velocity model(However, constant acceleration and more complex models are realistic)
+            // TTC = d1 * delta_t / (d0 - d1)
+            // where: d0 is the previous frame's distance from the ego car to the preceding vehicle's rear bumper 
+            //        d1 is the current frame's distance from the ego car to the preceding vehicle's rear bumper 
+            //        delta_t is the time difference between two consecutive frames (1 / frameRate)
+            // Note: this implementation of the time to collision using Lidar points doesn't take the distance between the Lidar origin and the ego vehicles front bumper! in account
+            // It also does not account the hump caused due to the curvature of the rear bump of the preceding vehicle.
+            TTC = d1 * (1.0 / frameRate) / (d0 - d1);
 
-        ttc_lidar_calculation_time = ((double)cv::getTickCount() - ttc_lidar_calculation_time) / cv::getTickFrequency();
-        cout << " ttc lidar calculation took " << 1000 * ttc_lidar_calculation_time / 1.0 << " ms.\n";
-    }
-
-```
+            ttc_lidar_calculation_time = ((double)cv::getTickCount() - ttc_lidar_calculation_time) / cv::getTickFrequency();
+            cout << " ttc lidar calculation took " << 1000 * ttc_lidar_calculation_time / 1.0 << " ms.\n";
+        }
+  
+    ```
 
 ### Associate Keypoint Correspondences with Bounding Boxes
 3. Preparing the data for Camera based time to collision by associating keypoint correspondences those lie in the bounding box or the region of interest in both current and previous frame along with their distance being less than a certain threshold.
